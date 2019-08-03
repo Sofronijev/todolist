@@ -1,0 +1,54 @@
+body{
+    background-color: #659DBD; 
+}
+h1{
+    text-align: center;
+    color: white;
+    
+}
+h4{
+    color: white;
+    border-bottom: 2px solid white;
+
+}
+li{
+    margin-top: 5px;  
+}
+.checkbox:hover{
+    cursor: pointer;
+}
+.done{
+    color:green; 
+      
+}
+.lineThrough{
+    text-decoration: line-through;
+}
+.checkbox{
+    font-size: 1.75rem; 
+}
+.delete, .important{
+    float: right;
+    font-size: 1.75rem;
+}
+.text{
+    vertical-align: top;
+}
+.delete:hover{
+    color: red;
+    cursor: pointer;
+
+}
+
+.important:hover{    
+    cursor: pointer;    
+}
+.gold{
+    color: gold;
+}
+i{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
