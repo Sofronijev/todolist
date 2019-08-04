@@ -1,5 +1,6 @@
 body{
     background-color: #659DBD; 
+    font-weight: 600;
 }
 h1{
     text-align: center;
@@ -12,7 +13,7 @@ h4{
 
 }
 li{
-    margin-top: 5px;  
+    margin-top: 5px;      
 }
 .checkbox:hover{
     cursor: pointer;
@@ -21,8 +22,9 @@ li{
     color:green; 
       
 }
-.lineThrough{
+.taskDone{
     text-decoration: line-through;
+    background-color:#cccccc;
 }
 .checkbox{
     font-size: 1.75rem; 

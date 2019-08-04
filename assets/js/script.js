@@ -1,5 +1,6 @@
 const addButton = document.getElementById("add");
 const addTask = document.getElementById("task");
+const clearButton = document.getElementById("clearTasks");
 
 addButton.onclick = function () {
     newTask();
@@ -59,8 +60,11 @@ function newTask() {
 
     //add everyting in li elemnt to table list
     document.getElementById("listTable").appendChild(listItem);
-    
-    
+
+    let allTasks = document.querySelectorAll("#listTable>li");
+    document.getElementById("allTasks").textContent = allTasks.length;
+
+
     /*
     // OVO NE RADI! Za delete i hoce da radi ali ponavlja se vise puta kad ima vise elemenata, addeventlistener dodaje event vise puta na jedno dugme, tako da ako ga doda paran broj puta on ce da toggle paran broj i izgledace kao da se nista ne desava, nisam nasao resenje osim da izbacim u global funkcije
 
@@ -83,24 +87,62 @@ function newTask() {
     addTask.value = "";
 
 }
-//selects whole list of tasks
-//Ovo sam prvo radi osa for loop koji dodaje eventlistener za svako dugme, ali nije dobro radilo za checkbox, radilo je na svakom drugom
 
+
+
+
+//selects whole list of tasks
+//Ovo sam prvo radio sa for loop koji dodaje eventlistener za svako dugme, ali nije dobro radilo za checkbox, radilo je na svakom drugom
 let list = document.querySelector("#listTable");
-let doneList = document.querySelector("#doneTable");
-list.addEventListener('click', function (ev) {
+list.addEventListener("click", function (ev) {
     //ev.target is element that is clicked on
     // changes checkbox
     if (ev.target.classList.contains("checkbox")) {
-        ev.target.classList.toggle("done");
-        ev.target.parentElement.classList.toggle("lineThrough");
+        ev.target.classList.add("done");
+        ev.target.parentElement.classList.add("taskDone");
+        //counts number of finished tasks
+        let doneTasks = document.querySelectorAll(".done");
+        document.getElementById("finished").textContent = doneTasks.length;
+
         if (ev.target.textContent === "check_box_outline_blank") {
-            ev.target.textContent = "check_box";         
+            ev.target.textContent = "check_box";
             doneList.appendChild(ev.target.parentElement);
-        }  
-    }  
+            let allTasks = document.querySelectorAll("#listTable>li");
+            document.getElementById("allTasks").textContent = allTasks.length;
+        }
+    }
     if (ev.target.classList.contains("delete")) {
         ev.target.parentElement.remove();
+        let allTasks = document.querySelectorAll("#listTable>li");
+        document.getElementById("allTasks").textContent = allTasks.length;
+    }
+    //mark important
+    if (ev.target.classList.contains("important")) {
+        ev.target.classList.toggle("gold");
+    }
+});
+let doneList = document.querySelector("#doneTable");
+doneList.addEventListener("click", function (ev) {
+    if (ev.target.classList.contains("checkbox")) {
+        ev.target.classList.remove("done");
+        //counts number of finished tasks
+        let doneTasks = document.querySelectorAll(".done");
+        document.getElementById("finished").textContent = doneTasks.length;
+
+        ev.target.parentElement.classList.remove("taskDone");
+        if (ev.target.textContent === "check_box") {
+            ev.target.textContent = "check_box_outline_blank";
+            list.appendChild(ev.target.parentElement);
+
+            let allTasks = document.querySelectorAll("#listTable>li");
+            document.getElementById("allTasks").textContent = allTasks.length;
+        }
+
+    }
+    if (ev.target.classList.contains("delete")) {
+        ev.target.parentElement.remove();
+        let doneTasks = document.querySelectorAll(".done");
+        document.getElementById("finished").textContent = doneTasks.length;
     }
     //mark important
     if (ev.target.classList.contains("important")) {
@@ -108,20 +150,17 @@ list.addEventListener('click', function (ev) {
     }
 });
 
-doneList.addEventListener('click', function (ev) {    
-    if (ev.target.classList.contains("checkbox")) {
-        ev.target.classList.toggle("done");
-        ev.target.parentElement.classList.toggle("lineThrough");
-        if (ev.target.textContent === "check_box") {
-            ev.target.textContent = "check_box_outline_blank";            
-            list.appendChild(ev.target.parentElement);
-        } 
-    } 
-    if (ev.target.classList.contains("delete")) {
-        ev.target.parentElement.remove();
+clearButton.addEventListener("click", function(){
+    //delete all children in #doneTable UL, except first that is h4 element
+    // PROBAJ DA PROMENIS, DA IZGLEDA LEPSE !!-----------------------------------
+    while (doneList.children[1]) {
+        doneList.removeChild(doneList.children[1]);
+        //clear number of finished tasks
+        let doneTasks = document.querySelectorAll(".done");
+        document.getElementById("finished").textContent = doneTasks.length;
     }
-    //mark important
-    if (ev.target.classList.contains("important")) {
-        ev.target.classList.toggle("gold");
-    } 
 });
+
+
+//IZMENI BROJANJE TASKOVA, NAPRAVI FUNKCIJU
+//PA ONDA ONA DA SE DODAJE, A NE STALNO DA SE PISE ISTI TEKST
