@@ -64,95 +64,76 @@ function newTask() {
     let allTasks = document.querySelectorAll("#listTable>li");
     document.getElementById("allTasks").textContent = allTasks.length;
 
-
-    /*
-    // OVO NE RADI! Za delete i hoce da radi ali ponavlja se vise puta kad ima vise elemenata, addeventlistener dodaje event vise puta na jedno dugme, tako da ako ga doda paran broj puta on ce da toggle paran broj i izgledace kao da se nista ne desava, nisam nasao resenje osim da izbacim u global funkcije
-
-    //delete button on click
-    let deleteButton = document.querySelectorAll(".delete");    
-    for(let i = 0; i<deleteButton.length; i++){
-        deleteButton[i].addEventListener("click", function(){
-            this.parentElement.remove();
-        });       
-    }
-    let importantButton = document.querySelectorAll(".important");
-    for (let y = 0; y<importantButton.length; y++){
-         importantButton[y].addEventListener("click", function(){
-            this.classList.toggle("gold");            
-        });
-    }
-    */
-
     //clear input field
     addTask.value = "";
-
 }
 
+//counts elements that are finished (has done class)
+function countFinished() {
+    let doneTasks = document.querySelectorAll(".done");
+    document.getElementById("finished").textContent = doneTasks.length;
+}
 
-
+function countAlltasks() {
+    let allTasks = document.querySelectorAll("#listTable>li");
+    document.getElementById("allTasks").textContent = allTasks.length;
+}
 
 //selects whole list of tasks
-//Ovo sam prvo radio sa for loop koji dodaje eventlistener za svako dugme, ali nije dobro radilo za checkbox, radilo je na svakom drugom
 let list = document.querySelector("#listTable");
 list.addEventListener("click", function (ev) {
     //ev.target is element that is clicked on
     // changes checkbox
-    if (ev.target.classList.contains("checkbox")) {
-        ev.target.classList.add("done");
-        ev.target.parentElement.classList.add("taskDone");
+    let clickedElement = ev.target;
+    if (clickedElement.classList.contains("checkbox")) {
+        clickedElement.classList.add("done");
+        clickedElement.parentElement.classList.add("taskDone");
         //counts number of finished tasks
-        let doneTasks = document.querySelectorAll(".done");
-        document.getElementById("finished").textContent = doneTasks.length;
+        countFinished();
 
-        if (ev.target.textContent === "check_box_outline_blank") {
-            ev.target.textContent = "check_box";
-            doneList.appendChild(ev.target.parentElement);
-            let allTasks = document.querySelectorAll("#listTable>li");
-            document.getElementById("allTasks").textContent = allTasks.length;
+        if (clickedElement.textContent === "check_box_outline_blank") {
+            clickedElement.textContent = "check_box";
+            doneList.appendChild(clickedElement.parentElement);
+            countAlltasks();
         }
     }
-    if (ev.target.classList.contains("delete")) {
-        ev.target.parentElement.remove();
-        let allTasks = document.querySelectorAll("#listTable>li");
-        document.getElementById("allTasks").textContent = allTasks.length;
+    if (clickedElement.classList.contains("delete")) {
+        clickedElement.parentElement.remove();
+        countAlltasks();
     }
     //mark important
-    if (ev.target.classList.contains("important")) {
-        ev.target.classList.toggle("gold");
+    if (clickedElement.classList.contains("important")) {
+        clickedElement.classList.toggle("gold");
     }
 });
 let doneList = document.querySelector("#doneTable");
 doneList.addEventListener("click", function (ev) {
-    if (ev.target.classList.contains("checkbox")) {
-        ev.target.classList.remove("done");
+    let clickedElement = ev.target;
+    if (clickedElement.classList.contains("checkbox")) {
+        clickedElement.classList.remove("done");
         //counts number of finished tasks
-        let doneTasks = document.querySelectorAll(".done");
-        document.getElementById("finished").textContent = doneTasks.length;
+        countFinished();
 
-        ev.target.parentElement.classList.remove("taskDone");
-        if (ev.target.textContent === "check_box") {
-            ev.target.textContent = "check_box_outline_blank";
-            list.appendChild(ev.target.parentElement);
-
-            let allTasks = document.querySelectorAll("#listTable>li");
-            document.getElementById("allTasks").textContent = allTasks.length;
+        clickedElement.parentElement.classList.remove("taskDone");
+        if (clickedElement.textContent === "check_box") {
+            clickedElement.textContent = "check_box_outline_blank";
+            list.appendChild(clickedElement.parentElement);
+            countAlltasks();
         }
 
     }
-    if (ev.target.classList.contains("delete")) {
-        ev.target.parentElement.remove();
-        let doneTasks = document.querySelectorAll(".done");
-        document.getElementById("finished").textContent = doneTasks.length;
+    if (clickedElement.classList.contains("delete")) {
+        clickedElement.parentElement.remove();
+        countFinished()
     }
     //mark important
-    if (ev.target.classList.contains("important")) {
-        ev.target.classList.toggle("gold");
+    if (clickedElement.classList.contains("important")) {
+        clickedElement.classList.toggle("gold");
     }
 });
 
-clearButton.addEventListener("click", function(){
-    //delete all children in #doneTable UL, except first that is h4 element
-    // PROBAJ DA PROMENIS, DA IZGLEDA LEPSE !!-----------------------------------
+clearButton.addEventListener("click", function () {
+    //delete all children in #doneTable UL, except first that is h4 element    
     while (doneList.children[1]) {
         doneList.removeChild(doneList.children[1]);
         //clear number of finished tasks
@@ -162,5 +143,5 @@ clearButton.addEventListener("click", function(){
 });
 
 
-//IZMENI BROJANJE TASKOVA, NAPRAVI FUNKCIJU
-//PA ONDA ONA DA SE DODAJE, A NE STALNO DA SE PISE ISTI TEKST
+//sta sve treba da bude u objektu
+//tekst, da li je important, da li je stiklirano
