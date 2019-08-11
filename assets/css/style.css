@@ -35,6 +35,7 @@ li{
 }
 .text{
     vertical-align: top;
+    word-break: break-all;
 }
 .delete:hover{
     color: red;
