@@ -1,24 +1,28 @@
 const addButton = document.getElementById("add");
 const addTask = document.getElementById("task");
 const clearButton = document.getElementById("clearTasks");
+const dateInput = document.getElementById("dateInput");
 
 //checking if local storige exsists
 let tasksArray = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
 
 localStorage.setItem('tasks', JSON.stringify(tasksArray));
 const data = JSON.parse(localStorage.getItem('tasks'));
-console.log(data);
 //if localStorige existst, creates tasks
 data.forEach(task => {
-    newTask(task.objectText, task.objectChecked, task.objectImportant);
+    newTask(task.objectText, task.objectDate, task.objectChecked, task.objectImportant);
 })
 
-function addToLocal(text) {
+function addToLocal(text, date) {
+    //checks if tasks exists or not (without this tasks dont get deleted if you don't refresh page after deleting)
+    let tasksArray = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : [];
     //create object for task and add to local storage
     let tasksObject = {
         objectText: text,
+        objectDate: date,
         objectChecked: false,
-        objectImportant: false
+        objectImportant: false,
+
     }
     tasksArray.push(tasksObject);
     localStorage.setItem('tasks', JSON.stringify(tasksArray));
@@ -26,48 +30,85 @@ function addToLocal(text) {
 //counts tasks when loading page
 countFinished();
 countAlltasks();
-addButton.onclick = function () {
-    let taskText = addTask.value.trim();
-    //check if empty string
-    if (taskText == "" || taskText == null) {
+
+function createDate(date) {
+    let splitDate = date.split("-");
+    let selectedDate = new Date(splitDate[0], splitDate[1] - 1, splitDate[2]);
+    return selectedDate;
+}
+
+function checkTextInput(text, existingText) {
+    ///text - value from text input
+    /// existingText - tasks that are already set
+    let validText = true;
+    if (text === "" || text === null) {
+        validText = false;
+        //stops function form going further if there is no valid input
         return;
     }
-    //check if task already exists
-    let allTasksText = document.querySelectorAll(".text");
-    for (let i = 0; i < allTasksText.length; i++) {
-        console.log("task", taskText);
-        console.log("all", allTasksText[i].textContent);
-        if (allTasksText[i].textContent === taskText) {
+    for (let i = 0; i < existingText.length; i++) {
+        if (existingText[i].textContent === text) {
             alert("Task already exists");
-            return;
+            validText = false;
         }
     }
+    return validText;
+}
 
-    newTask(taskText);
-    addToLocal(taskText);
+addButton.onclick = function () {
+    let taskText = addTask.value.trim();
+    let allTasksText = document.querySelectorAll(".text");
+    //check if empty string or if tast exists
+    if (!checkTextInput(taskText, allTasksText)) {
+        return;
+    }
+    //use value from date input, and chage format before using it
+    let dateValue = dateInput.value;
+    let selectedDate = createDate(dateValue);
+    let currentDate = new Date();
+    //remove time from date
+    currentDate.setHours(0, 0, 0, 0);
+    //check if slected date is not something in past
+    if (selectedDate < currentDate) {
+        alert("Select some date in future");
+        return;
+    }
+    //check if falsy value
+    if (!dateValue) {
+        selectedDate = "";
+    }
+    newTask(taskText, dateValue);
+    addToLocal(taskText, dateValue);
 }
 addTask.addEventListener("keyup", function (event) {
     if (event.keyCode === 13) {
         event.preventDefault();
         let taskText = addTask.value.trim();
-        //check if empty string
-        if (taskText == "" || taskText == null) {
+        let allTasksText = document.querySelectorAll(".text");
+        //check if empty string or if tast exists
+        if (!checkTextInput(taskText, allTasksText)) {
             return;
         }
-        //check if task already exists
-        let allTasksText = document.querySelectorAll(".text");
-        for (let i = 0; i < allTasksText.length; i++) {           
-            if (allTasksText[i].textContent === taskText) {
-                alert("Task already exists");
-                return;
-            }
+        let dateValue = dateInput.value;
+        let selectedDate = createDate(dateValue);
+        let currentDate = new Date();
+        //remove time from date
+        currentDate.setHours(0, 0, 0, 0);
+        //check if slected date is not something in past
+        if (selectedDate < currentDate) {
+            alert("Select some date in future");
+            return;
         }
-        newTask(taskText);
-        addToLocal(taskText);
+        //check if falsy value
+        if (!dateValue) {
+            selectedDate = "";
+        }
+        newTask(taskText, dateValue);
+        addToLocal(taskText, dateValue);
     }
 });
 
-function newTask(inputText, checked = false, star = false) {
+function newTask(inputText, inputDate, checked = false, star = false) {
     let taskText = inputText;
 
     //create li element and add class
@@ -120,6 +161,16 @@ function newTask(inputText, checked = false, star = false) {
     //add edit icon to li element
     listItem.appendChild(editIcon);
 
+    if (inputDate !== "") {
+        //create date
+        let dueDate = document.createElement("p");
+        dueDate.classList.add("date");
+        let taskDate = createDate(inputDate);
+        let dueDateText = document.createTextNode(`Due date: ${taskDate.toDateString()}`);
+        dueDate.appendChild(dueDateText);
+        listItem.appendChild(dueDate);
+    }
+
     //add everyting in li element to list, if its finished then to doneTable, else listTable
     if (checked == true) {
         document.getElementById("doneTable").appendChild(listItem);
@@ -129,8 +180,6 @@ function newTask(inputText, checked = false, star = false) {
 
     let allTasks = document.querySelectorAll("#listTable>li");
     document.getElementById("allTasks").textContent = allTasks.length;
-
-
     //clear input field
     addTask.value = "";
 }
@@ -160,7 +209,7 @@ function checkIfImportantLocal(clickedElement) {
         localStorage.setItem('tasks', JSON.stringify(localTasks));
     } else {
         //load all elements in localStorage
-        let localTasks = JSON.parse(localStorage.getItem('tasks'));        
+        let localTasks = JSON.parse(localStorage.getItem('tasks'));
         localTasks.forEach(task => {
             if (task.objectText == clickedElement.parentElement.children[1].textContent) {
                 task.objectImportant = false;
@@ -173,7 +222,7 @@ function checkIfImportantLocal(clickedElement) {
 
 function deleteLocal(clickedElement) {
     //load all elements in localStorage
-    let localTasks = JSON.parse(localStorage.getItem('tasks'));    
+    let localTasks = JSON.parse(localStorage.getItem('tasks'));
     localTasks.forEach((task, index) => {
         if (task.objectText == clickedElement.parentElement.children[1].textContent) {
             localTasks.splice(index, 1);
@@ -189,7 +238,8 @@ list.addEventListener("click", function (ev) {
     // changes checkbox
     let clickedElement = ev.target;
     if (clickedElement.classList.contains("checkbox")) {
-        clickedElement.classList.add("done"); clickedElement.parentElement.classList.add("taskDone");
+        clickedElement.classList.add("done");
+        clickedElement.parentElement.classList.add("taskDone");
         //load all elements in localStorage
         let localTasks = JSON.parse(localStorage.getItem('tasks'));
         //find clicked element in localStorage and set objectChecked to true
@@ -267,12 +317,12 @@ clearButton.addEventListener("click", function () {
         document.getElementById("finished").textContent = doneTasks.length;
     }
     //load all elements in localStorage
-    let localTasks = JSON.parse(localStorage.getItem('tasks'));    
-    for(let i = localTasks.length-1; i >= 0; i--){
+    let localTasks = JSON.parse(localStorage.getItem('tasks'));
+    for (let i = localTasks.length - 1; i >= 0; i--) {
         if (localTasks[i].objectChecked === true) {
-            localTasks.splice(i, 1);            
+            localTasks.splice(i, 1);
         }
-    }    
+    }
     localStorage.setItem('tasks', JSON.stringify(localTasks));
 });
 

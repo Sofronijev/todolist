@@ -12,8 +12,8 @@ h4{
     border-bottom: 2px solid white;
 
 }
-li{
-    margin-top: 5px;      
+.list-group-item{
+    margin-top: 5px;     
 }
 .checkbox:hover{
     cursor: pointer;
@@ -32,6 +32,11 @@ li{
 .delete, .important{
     float: right;
     font-size: 1.75rem;
+}
+.date{
+    margin: 0;
+    color: grey;
+    font-size: 0.80rem;
 }
 .text{
     vertical-align: top;
