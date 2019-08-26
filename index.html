@@ -25,16 +25,19 @@
     <div class="container">
 
         <h1 class="display-3">To do list</h1>
-        <div class="row">
-            <input id="task" class="form-control offset-3 col-4 mr-2" type="text" placeholder="Enter your task">
-            <button id="add" type="button" class="btn btn-success">Add</button>
-        </div>
-        <div class="row">
-            <input class="form-control offset-3 col-4 mt-2" type="date" id="dateInput">
-        </div>
-        <div class="row">
-            <p id="emailHelp" class="form-text text-white offset-3">Select due date (optional)</p>
-        </div>
+        
+        <form id="toDoForm">
+            <div class="row">
+                <input id="task" class="form-control offset-3 col-4 mr-2" type="text" placeholder="Enter your task">
+                <button id="add" type="submit" class="btn btn-success">Add</button>
+            </div>
+            <div class="row">
+                <input class="form-control offset-3 col-4 mt-2" type="date" id="dateInput">
+            </div>
+            <div class="row">
+                <p class="form-text text-white offset-3">Select due date (optional)</p>
+            </div>
+        </form>
 
 
         <div class="row">
@@ -43,7 +46,7 @@
                 <!-- <li class="list-group-item">
 
                 <i class="material-icons">check_box_outline_blank</i>
-                <span class="text">Napravi aplikaciju</span>
+                <span name="text" class="text">Napravi aplikaciju</span>
                 <i  class="material-icons delete">delete </i>
                 <i  class="material-icons important"> star</i>
                 <p class="date"> 24.12.1989</p>
@@ -65,6 +68,7 @@
         </div>
         <button id="clearTasks" class="btn btn-danger offset-3 mt-3">Clear all</button>
     </div>
+    <script src="assets/js/functions.js"></script>
     <script src="assets/js/script.js"></script>
 
 </body>
