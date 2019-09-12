@@ -31,7 +31,7 @@ toDoForm.addEventListener("submit", function (event) {
     currentDate.setHours(0, 0, 0, 0);
     //check if selected date is not something in past
     if (selectedDate < currentDate) {
-        alert("Select some date in future");
+        alert("You cannot select a date that has passed.");
         return;
     }
     //check if falsy value
