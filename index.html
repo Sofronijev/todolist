@@ -16,34 +16,37 @@
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/style.css">
     <title>To do list</title>
 
 </head>
 
 <body>
-    <div class="container">
+    <div class="container mt-md-5">
 
-        <h1 class="display-3">To do list</h1>
-        
-        <form id="toDoForm">
+
+
+        <form id="toDoForm" class="p-4 w-md-75 m-auto">
+            <h1>To do list</h1>
             <div class="row">
-                <input id="task" class="form-control offset-3 col-4 mr-2" type="text" placeholder="Enter your task">
-                <button id="add" type="submit" class="btn btn-success">Add task</button>
+                <input id="task" class="form-control mx-md-4 mt-2" type="text" placeholder="Enter your task">
+
             </div>
             <div class="row">
-                <input class="form-control offset-3 col-4 mt-2" type="date" id="dateInput">
+                <input class="form-control mt-2 mx-md-4" type="date" id="dateInput">
+                <small class="form-text mx-md-4">Select due date (optional)</small>
             </div>
-            <div class="row">
-                <p class="form-text text-white offset-3">Select due date (optional)</p>
+            <div class="row mt-2">
+                <button id="add" type="submit" class="btn btn-success col-6 m-auto">Add task</button>
             </div>
         </form>
 
-
-        <div class="row">
-            <ul class="list-group offset-3 col-6 mt-3" id="listTable">
-                <h4>Unfinished tasks: <span id="allTasks"></span></h4>
-                <!-- <li class="list-group-item">
+        <div class="w-md-75 m-auto py-3">
+            <div class="row">
+                <ul class="list-group mt-3 w-100 mx-md-5 mx-4" id="listTable">
+                    <h4>Unfinished tasks: <span id="allTasks"></span></h4>
+                    <!-- <li class="list-group-item">
 
                 <i class="material-icons">check_box_outline_blank</i>
                 <span name="text" class="text">Napravi aplikaciju</span>
@@ -52,21 +55,22 @@
                 <p class="date"> 24.12.1989</p>
             </li> -->
 
-            </ul>
+                </ul>
 
-            <ul class="list-group offset-3 col-6 mt-3" id="doneTable">
-                <h4>Finished tasks: <span id="finished"></span></h4>
+                <ul class="list-group mt-3 w-100 mx-md-5 mx-4" id="doneTable">
+                    <h4>Finished tasks: <span id="finished"></span></h4>
 
-                <!-- <li class="list-group-item">
+                    <!-- <li class="list-group-item">
 
                 <i class="material-icons">check_box_outline_blank</i>
                 <span class="text">Napravi aplikaciju</span>
                 <i  class="material-icons delete">delete </i>
                 <i  class="material-icons important"> star</i>
             </li> -->
-            </ul>
+                </ul>
+            </div>
+            <button id="clearTasks" class="btn btn-danger offset-3 col-6 mt-3">Clear finished</button>
         </div>
-        <button id="clearTasks" class="btn btn-danger offset-3 mt-3">Clear finished</button>
     </div>
     <script src="assets/js/functions.js"></script>
     <script src="assets/js/script.js"></script>

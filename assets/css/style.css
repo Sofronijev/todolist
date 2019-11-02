@@ -1,62 +1,97 @@
-body{
-    background-color: #659DBD; 
-    font-weight: 600;
+html {
+    background: #0F2027;
+    background: linear-gradient(45deg, #2C5364, #203A43, #0F2027);
+    height: 100%;
+    background-size: cover;
 }
-h1{
+
+body {
+    font-weight: 600;
+    background-color: inherit;
+}
+
+.container {
+    background: #414345;   
+}
+
+h1 {
     text-align: center;
     color: white;
-    
+    font-family: 'Lobster', cursive;
+    font-size: 5em;
+    ;
 }
-h4{
+
+h4 {
     color: white;
     border-bottom: 2px solid white;
+}
 
+.list-group-item {
+    margin-top: 5px;
 }
-.list-group-item{
-    margin-top: 5px;     
-}
-.checkbox:hover{
+
+.checkbox:hover {
     cursor: pointer;
 }
-.done{
-    color:green; 
-      
+
+.done {
+    color: green;
 }
-.taskDone{
+
+.taskDone {
     text-decoration: line-through;
-    background-color:#cccccc;
+    background-color: #cccccc;
 }
-.checkbox{
-    font-size: 1.75rem; 
+
+.checkbox {
+    font-size: 1.75rem;
 }
-.delete, .important{
+
+.delete, .important {
     float: right;
     font-size: 1.75rem;
 }
-.date{
+
+.date {
     margin: 0;
     color: grey;
     font-size: 0.80rem;
 }
-.text{
+
+.text {
     vertical-align: top;
     word-break: break-word;
 }
-.delete:hover{
+
+.delete:hover {
     color: red;
     cursor: pointer;
-
 }
 
-.important:hover{    
-    cursor: pointer;    
+.important:hover {
+    cursor: pointer;
 }
-.gold{
+
+.gold {
     color: gold;
 }
-i{
+
+i {
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.list-group-item {
+    border-radius: 15px;
+}
+
+.list-group-item:last-child {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+small{
+    color: grey;
 }
