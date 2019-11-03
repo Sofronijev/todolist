@@ -75,6 +75,7 @@ h4 {
 
 .gold {
     color: gold;
+    text-shadow: 0px 0px 5px gold;  
 }
 
 i {
@@ -94,4 +95,10 @@ i {
 }
 small{
     color: grey;
+}
+/* one color on smaller screens */
+@media only screen and (max-width: 760px){
+    html{        
+        background:  #414345;
+    }
 }
